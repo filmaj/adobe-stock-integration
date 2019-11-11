@@ -23,7 +23,8 @@ phpenv rehash;
 test -n "$GITHUB_TOKEN" && composer config github-oauth.github.com "$GITHUB_TOKEN" || true
 
 composer config --global http-basic.repo.magento.com "$MAGENTO_USERNAME" "$MAGENTO_PASSWORD"
-git clone https://github.com/magento/magento2
+# TODO: we should specify a particular SHA/branch here
+git clone --depth 1 https://github.com/magento/magento2
 
 if [[ ${TEST_SUITE} = "functional" ]]; then
     # Install apache

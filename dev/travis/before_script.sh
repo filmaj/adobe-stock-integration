@@ -30,7 +30,7 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
         --admin-use-security-key=0 \
         --admin-password="123123q"
     echo "Enabling production mode"
-    php bin/magento deploy:mode:set production
+    php bin/magento deploy:mode:set --verbose production
 
     echo "Prepare functional tests for running"
 
