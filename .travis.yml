@@ -26,6 +26,7 @@ env:
     - MAGENTO_HOST_NAME="magento2.travis"
   matrix:
     - TEST_SUITE=unit
+    - TEST_SUITE=functional
 matrix:
   fast_finish: true
 cache:
@@ -52,3 +53,4 @@ script:
   - if [ $TEST_SUITE == 'unit' ]; then phpunit --configuration dev/tests/unit/phpunit.xml; fi
 after_success:
   - if [ $TEST_SUITE == 'unit' ]; then cd ../ && travis_retry coveralls; fi
+  - if [ $TEST_SUITE == 'functional' ]; then codecept run functional --verbose --steps -g AdobeStockIntegration -c dev/tests/acceptance/codeception.yml; fi
