@@ -7,7 +7,7 @@ set -e
 trap '>&2 echo Error: Command \`$BASH_COMMAND\` on line $LINENO failed with exit code $?' ERR
 
 # prepare for test suite
-
+pushd magento2
 if [[ ${TEST_SUITE} = "unit" ]]; then
     echo "Prepare unit tests for runining"
     composer require "mustache/mustache":"~2.5"
@@ -36,17 +36,13 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
 
     echo "Prepare functional tests for running"
 
-    echo "Where are we even"
-    echo `pwd`
-    echo `ls -al dev/tests/acceptance`
     composer require se/selenium-server-standalone:2.53.1
     export DISPLAY=:1.0
-    sh ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone -port 4444 -host 127.0.0.1 \
-        -Dwebdriver.firefox.bin=$(which firefox) -trustAllSSLCertificate &> ~/selenium.log &
 
     pushd dev/tests/acceptance
 
     cp ./.htaccess.sample ./.htaccess
+    cp -f ${TRAVIS_BUILD_DIR}/dev/tests/acceptance/.env .env
     sed -e "s?%ADOBE_STOCK_API_KEY%?${ADOBE_STOCK_API_KEY}?g" --in-place ./.env
     sed -e "s?%ADOBE_STOCK_PRIVATE_KEY%?${ADOBE_STOCK_PRIVATE_KEY}?g" --in-place ./.env
     sed -e "s?%ADOBE_STOCK_USER_EMAIL%?${ADOBE_STOCK_USER_EMAIL}?g" --in-place ./.env
@@ -55,9 +51,18 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     sed -e "s?%MAGENTO_HOST_NAME%?${MAGENTO_HOST_NAME}?g" --in-place ./.env
     sed -e "s?%MAGENTO_ADMIN_USERNAME%?${MAGENTO_ADMIN_USERNAME}?g" --in-place ./.env
     sed -e "s?%MAGENTO_ADMIN_PASSWORD%?${MAGENTO_ADMIN_PASSWORD}?g" --in-place ./.env
-
     popd
 
+    # prepare mftf test files
     mftf build:project
     mftf generate:tests
+
+    # run selenium
+    # TODO: we should find different browsers here and possibly enable in a
+    # travis matrix, for example:
+    # headless chrome: https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-the-chrome-addon-in-the-headless-mode
+    # headless firefox: https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-the-firefox-addon-in-headless-mode
+    sh ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone -port 4444 -host 127.0.0.1 \
+        -Dwebdriver.firefox.bin=$(which firefox) -trustAllSSLCertificate &> ~/selenium.log &
 fi
+popd
