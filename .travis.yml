@@ -50,8 +50,11 @@ install:
   - composer require astock/stock-api-libphp
   - popd
 before_script:
+  - pushd magento2
   - ./dev/travis/before_script.sh
+  - popd
 script:
+  - pushd magento2
   - if [ $TEST_SUITE == 'unit' ]; then phpunit --configuration dev/tests/unit/phpunit.xml; fi
   - if [ $TEST_SUITE == 'phpstan' ]; then composer require --dev phpstan/phpstan fooman/phpstan-magento2-magic-methods && phpstan analyse -l 2 ../ext -a dev/tests/api-functional/framework/autoload.php ; fi
   - if [ $TEST_SUITE == 'functional' ]; then codecept run functional --verbose --steps -g AdobeStockIntegration -c dev/tests/acceptance/codeception.yml; fi
