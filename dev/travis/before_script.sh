@@ -36,13 +36,14 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
 
     echo "Prepare functional tests for running"
 
+    echo "Where are we even"
+    echo `pwd`
+    echo `ls -al dev/tests/acceptance`
     composer require se/selenium-server-standalone:2.53.1
     export DISPLAY=:1.0
     sh ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone -port 4444 -host 127.0.0.1 \
         -Dwebdriver.firefox.bin=$(which firefox) -trustAllSSLCertificate &> ~/selenium.log &
 
-    echo `pwd`
-    echo `ls -al dev/tests/acceptance`
     pushd dev/tests/acceptance
 
     cp ./.htaccess.sample ./.htaccess
