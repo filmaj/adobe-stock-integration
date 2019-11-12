@@ -53,6 +53,3 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
 
     /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -screen 0 1280x1024x24
 fi
-
-echo 'Creating magento2 database'
-mysql -uroot -e 'CREATE DATABASE magento2;'

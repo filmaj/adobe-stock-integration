@@ -16,6 +16,7 @@ fi
 
 if [[ ${TEST_SUITE} = "functional" ]]; then
     echo "Installing Magento"
+    # TODO: add secure https flags here once ready
     php bin/magento setup:install -q \
         --language="en_US" \
         --timezone="UTC" \
@@ -27,6 +28,7 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
         --admin-email="admin@example.com" \
         --admin-user="${MAGENTO_ADMIN_USERNAME}" \
         --use-rewrites=1 \
+        --cleanup-database \
         --admin-use-security-key=0 \
         --admin-password="${MAGENTO_ADMIN_PASSWORD}"
     echo "Enabling production mode"

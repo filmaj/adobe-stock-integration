@@ -46,7 +46,6 @@ install:
   - mv Adobe* magento2/app/code/Magento/.
   - pushd magento2
   - composer install
-  - composer config minimum-stability dev
   - composer require astock/stock-api-libphp
   - popd
 before_script:
