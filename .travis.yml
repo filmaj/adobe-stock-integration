@@ -24,6 +24,9 @@ env:
     - COMPOSER_BIN_DIR=~/bin
     - NODE_JS_VERSION=8
     - MAGENTO_HOST_NAME="magento2.travis"
+    - MAGENTO_PROTOCOL="http"
+    - MAGENTO_ADMIN_USERNAME="admin"
+    - MAGENTO_ADMIN_PASSWORD="123123q"
   matrix:
     - TEST_SUITE=unit
     - TEST_SUITE=phpstan
@@ -38,18 +41,16 @@ cache:
     - $HOME/node_modules
     - $HOME/yarn.lock
 before_install:
-  - mkdir -p ext/magento/adobe-stock-integration
-  - mv !(ext) ext/magento/adobe-stock-integration/
-  - ./ext/magento/adobe-stock-integration/dev/travis/before_install.sh
+  - ./dev/travis/before_install.sh
 install:
-  - cd magento2
+  - mkdir -p magento2/app/code/Magento
+  - mv Adobe* magento2/app/code/Magento/.
+  - pushd magento2
   - composer install
   - composer config minimum-stability dev
-  - composer config repositories.ext path "../ext/*/*/*"
-  - composer require magento/adobe-stock-integration
+  - composer require astock/stock-api-libphp
+  - popd
 before_script:
-  - cp ../ext/magento/adobe-stock-integration/dev/tests/unit/phpunit.xml dev/tests/unit/phpunit.xml
-  - cp -f ../ext/magento/adobe-stock-integration/dev/travis/before_script.sh dev/travis/before_script.sh
   - ./dev/travis/before_script.sh
 script:
   - if [ $TEST_SUITE == 'unit' ]; then phpunit --configuration dev/tests/unit/phpunit.xml; fi
