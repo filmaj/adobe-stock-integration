@@ -41,7 +41,7 @@ cache:
     - $HOME/node_modules
     - $HOME/yarn.lock
 before_install:
-  - ./dev/travis/before_install.sh
+  - bash -x dev/travis/before_install.sh
 install:
   - mkdir -p magento2/app/code/Magento
   - mv Adobe* magento2/app/code/Magento/.
@@ -51,7 +51,7 @@ install:
   - popd
 before_script:
   - pushd magento2
-  - ./dev/travis/before_script.sh
+  - bash -x dev/travis/before_script.sh
   - popd
 script:
   - pushd magento2
