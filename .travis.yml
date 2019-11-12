@@ -22,6 +22,7 @@ php:
 env:
   global:
     - COMPOSER_BIN_DIR=~/bin
+    # we should revisit the nodejs version. Long Term Stable (LTS) is version 12 now.
     - NODE_JS_VERSION=8
     - MAGENTO_HOST_NAME="magento2.travis"
     - MAGENTO_PROTOCOL="http"
