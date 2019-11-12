@@ -20,15 +20,15 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
         --language="en_US" \
         --timezone="UTC" \
         --currency="USD" \
-        --base-url="http://${MAGENTO_HOST_NAME}/" \
+        --base-url="${MAGENTO_PROTOCOL}://${MAGENTO_HOST_NAME}/" \
         --admin-firstname="John" \
         --admin-lastname="Doe" \
         --backend-frontname="backend" \
         --admin-email="admin@example.com" \
-        --admin-user="admin" \
+        --admin-user="${MAGENTO_ADMIN_USERNAME}" \
         --use-rewrites=1 \
         --admin-use-security-key=0 \
-        --admin-password="123123q"
+        --admin-password="${MAGENTO_ADMIN_PASSWORD}"
     echo "Enabling production mode"
     php bin/magento deploy:mode:set production || ls -al var/log && cat var/log/debug.log
 
@@ -39,13 +39,19 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     sh ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone -port 4444 -host 127.0.0.1 \
         -Dwebdriver.firefox.bin=$(which firefox) -trustAllSSLCertificate &> ~/selenium.log &
 
-    cd dev/tests/acceptance
+    pushd dev/tests/acceptance
 
     cp ./.htaccess.sample ./.htaccess
     sed -e "s?%ADOBE_STOCK_API_KEY%?${ADOBE_STOCK_API_KEY}?g" --in-place ./.env
     sed -e "s?%ADOBE_STOCK_PRIVATE_KEY%?${ADOBE_STOCK_PRIVATE_KEY}?g" --in-place ./.env
+    sed -e "s?%ADOBE_STOCK_USER_EMAIL%?${ADOBE_STOCK_USER_EMAIL}?g" --in-place ./.env
+    sed -e "s?%ADOBE_STOCK_USER_PASSWORD%?${ADOBE_STOCK_USER_PASSWORD}?g" --in-place ./.env
+    sed -e "s?%MAGENTO_PROTOCOL%?${MAGENTO_PROTOCOL}?g" --in-place ./.env
+    sed -e "s?%MAGENTO_HOST_NAME%?${MAGENTO_HOST_NAME}?g" --in-place ./.env
+    sed -e "s?%MAGENTO_ADMIN_USERNAME%?${MAGENTO_ADMIN_USERNAME}?g" --in-place ./.env
+    sed -e "s?%MAGENTO_ADMIN_PASSWORD%?${MAGENTO_ADMIN_PASSWORD}?g" --in-place ./.env
 
-    cd ../../..
+    popd
 
     mftf build:project
     mftf generate:tests
