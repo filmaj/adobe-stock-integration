@@ -32,7 +32,7 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
         --admin-use-security-key=0 \
         --admin-password="${MAGENTO_ADMIN_PASSWORD}"
     echo "Enabling production mode"
-    php bin/magento deploy:mode:set production || ls -al var/log && cat var/log/debug.log
+    php bin/magento deploy:mode:set production
 
     echo "Prepare functional tests for running"
 
@@ -41,6 +41,8 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     sh ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone -port 4444 -host 127.0.0.1 \
         -Dwebdriver.firefox.bin=$(which firefox) -trustAllSSLCertificate &> ~/selenium.log &
 
+    pwd
+    ls -al dev/tests/acceptance
     pushd dev/tests/acceptance
 
     cp ./.htaccess.sample ./.htaccess
