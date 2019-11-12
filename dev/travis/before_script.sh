@@ -41,8 +41,8 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     sh ./vendor/se/selenium-server-standalone/bin/selenium-server-standalone -port 4444 -host 127.0.0.1 \
         -Dwebdriver.firefox.bin=$(which firefox) -trustAllSSLCertificate &> ~/selenium.log &
 
-    pwd
-    ls -al dev/tests/acceptance
+    echo `pwd`
+    echo `ls -al dev/tests/acceptance`
     pushd dev/tests/acceptance
 
     cp ./.htaccess.sample ./.htaccess
