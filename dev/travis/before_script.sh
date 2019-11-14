@@ -15,8 +15,6 @@ if [[ ${TEST_SUITE} = "unit" ]]; then
 fi
 
 if [[ ${TEST_SUITE} = "functional" ]]; then
-    echo "Installing composer dependencies"
-    composer install
     echo "Installing Magento"
     # TODO: add secure https flags here once ready
     php bin/magento setup:install \
@@ -64,6 +62,7 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     # prepare mftf test files
     which mftf
     mftf -V
+    ls -al vendor/bin
     test -f vendor/bin/mftf && vendor/bin/mftf -V
 
     mftf --verbose build:project

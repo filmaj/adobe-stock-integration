@@ -51,6 +51,9 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     sudo usermod -a -G travis www-data
 
     phpenv config-rm xdebug.ini
+    # TODO: after the following restart call, see this warning in the
+    # travis console:
+    # AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive globally to suppress this message
     sudo service apache2 restart
 
     /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -screen 0 1280x1024x24
