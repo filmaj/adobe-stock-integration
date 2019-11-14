@@ -61,6 +61,9 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
 
     # prepare mftf test files
     which mftf
+    mftf -V
+    test -f vendor/bin/mftf && vendor/bin/mftf -V
+
     mftf --verbose build:project
     mftf --verbose generate:tests
 
