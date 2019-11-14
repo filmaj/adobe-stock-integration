@@ -22,7 +22,6 @@ php:
   - '7.3'
 env:
   global:
-    - COMPOSER_BIN_DIR=~/bin
     # we should revisit the nodejs version. Long Term Stable (LTS) is version 12 now.
     - NODE_JS_VERSION=8
     - MAGENTO_HOST_NAME="magento2.travis"
@@ -55,9 +54,9 @@ before_script:
   - bash -x dev/travis/before_script.sh
 script:
   - pushd magento2
-  - if [ $TEST_SUITE == 'unit' ]; then phpunit --configuration dev/tests/unit/phpunit.xml; fi
-  - if [ $TEST_SUITE == 'phpstan' ]; then composer require --dev phpstan/phpstan fooman/phpstan-magento2-magic-methods && phpstan analyse -l 2 ../ext -a dev/tests/api-functional/framework/autoload.php ; fi
-  - if [ $TEST_SUITE == 'static' ]; then phpcs --standard=dev/tests/static/framework/Magento/ ../ext ; fi
-  - if [ $TEST_SUITE == 'functional' ]; then codecept run functional --verbose --steps -g AdobeStockIntegration -c dev/tests/acceptance/codeception.yml; fi
+  - if [ $TEST_SUITE == 'unit' ]; then vendor/bin/phpunit --configuration dev/tests/unit/phpunit.xml; fi
+  - if [ $TEST_SUITE == 'phpstan' ]; then composer require --dev phpstan/phpstan fooman/phpstan-magento2-magic-methods && vendor/bin/phpstan analyse -l 2 ../ext -a dev/tests/api-functional/framework/autoload.php ; fi
+  - if [ $TEST_SUITE == 'static' ]; then vendor/bin/phpcs --standard=dev/tests/static/framework/Magento/ ../ext ; fi
+  - if [ $TEST_SUITE == 'functional' ]; then vendor/bin/codecept run functional --verbose --steps -g AdobeStockIntegration -c dev/tests/acceptance/codeception.yml; fi
 after_success:
   - if [ $TEST_SUITE == 'unit' ]; then cd ../ && travis_retry coveralls; fi

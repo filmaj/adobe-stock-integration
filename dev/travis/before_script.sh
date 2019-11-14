@@ -60,11 +60,10 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     popd
 
     # prepare mftf test files
-    which mftf
-    mftf -V
-    which codecept || true
-    mftf --verbose build:project
-    mftf --verbose generate:tests
+    vendor/bin/mftf -V
+    vendor/bin/codecept -V
+    vendor/bin/mftf --verbose build:project
+    vendor/bin/mftf --verbose generate:tests
 
     # run selenium
     # TODO: we should find different browsers here and possibly enable in a
