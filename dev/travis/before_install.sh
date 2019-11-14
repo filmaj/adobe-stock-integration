@@ -27,6 +27,8 @@ composer config --global http-basic.repo.magento.com "$MAGENTO_USERNAME" "$MAGEN
 git clone --depth 1 https://github.com/magento/magento2
 
 if [[ ${TEST_SUITE} = "functional" ]]; then
+    echo 'Creating magento2 database'
+    mysql -uroot -e 'CREATE DATABASE magento2;'
     # Install apache
     sudo apt-get update
     sudo apt-get install apache2 libapache2-mod-fastcgi

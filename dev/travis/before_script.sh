@@ -48,14 +48,15 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
 
     cp ./.htaccess.sample ./.htaccess
     cp -f ${TRAVIS_BUILD_DIR}/dev/tests/acceptance/.env .env
-    sed -e "s?%ADOBE_STOCK_API_KEY%?${ADOBE_STOCK_API_KEY}?g" --in-place ./.env
-    sed -e "s?%ADOBE_STOCK_PRIVATE_KEY%?${ADOBE_STOCK_PRIVATE_KEY}?g" --in-place ./.env
-    sed -e "s?%ADOBE_STOCK_USER_EMAIL%?${ADOBE_STOCK_USER_EMAIL}?g" --in-place ./.env
-    sed -e "s?%ADOBE_STOCK_USER_PASSWORD%?${ADOBE_STOCK_USER_PASSWORD}?g" --in-place ./.env
     sed -e "s?%MAGENTO_PROTOCOL%?${MAGENTO_PROTOCOL}?g" --in-place ./.env
     sed -e "s?%MAGENTO_HOST_NAME%?${MAGENTO_HOST_NAME}?g" --in-place ./.env
     sed -e "s?%MAGENTO_ADMIN_USERNAME%?${MAGENTO_ADMIN_USERNAME}?g" --in-place ./.env
     sed -e "s?%MAGENTO_ADMIN_PASSWORD%?${MAGENTO_ADMIN_PASSWORD}?g" --in-place ./.env
+    cp -f ${TRAVIS_BUILD_DIR}/dev/tests/acceptance/.credentials .credentials
+    sed -e "s?%ADOBE_STOCK_API_KEY%?${ADOBE_STOCK_API_KEY}?g" --in-place ./.credentials
+    sed -e "s?%ADOBE_STOCK_PRIVATE_KEY%?${ADOBE_STOCK_PRIVATE_KEY}?g" --in-place ./.credentials
+    sed -e "s?%ADOBE_STOCK_USER_EMAIL%?${ADOBE_STOCK_USER_EMAIL}?g" --in-place ./.credentials
+    sed -e "s?%ADOBE_STOCK_USER_PASSWORD%?${ADOBE_STOCK_USER_PASSWORD}?g" --in-place ./.credentials
     popd
 
     # prepare mftf test files
