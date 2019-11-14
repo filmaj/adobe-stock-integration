@@ -60,8 +60,9 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     popd
 
     # prepare mftf test files
-    mftf build:project
-    mftf generate:tests
+    which mftf
+    mftf --verbose build:project
+    mftf --verbose generate:tests
 
     # run selenium
     # TODO: we should find different browsers here and possibly enable in a
