@@ -62,7 +62,7 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
     # prepare mftf test files
     which mftf
     mftf -V
-
+    which codecept || true
     mftf --verbose build:project
     mftf --verbose generate:tests
 
