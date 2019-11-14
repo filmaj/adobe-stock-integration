@@ -15,6 +15,8 @@ if [[ ${TEST_SUITE} = "unit" ]]; then
 fi
 
 if [[ ${TEST_SUITE} = "functional" ]]; then
+    echo "Installing composer dependencies"
+    composer install
     echo "Installing Magento"
     # TODO: add secure https flags here once ready
     php bin/magento setup:install \
