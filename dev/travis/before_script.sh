@@ -17,7 +17,7 @@ fi
 if [[ ${TEST_SUITE} = "functional" ]]; then
     echo "Installing Magento"
     # TODO: add secure https flags here once ready
-    php bin/magento setup:install -q \
+    php bin/magento setup:install \
         --language="en_US" \
         --timezone="UTC" \
         --currency="USD" \
@@ -28,6 +28,9 @@ if [[ ${TEST_SUITE} = "functional" ]]; then
         --admin-email="admin@example.com" \
         --admin-user="${MAGENTO_ADMIN_USERNAME}" \
         --use-rewrites=1 \
+        --db-host=127.0.0.1 \
+        --db-name=magento2 \
+        --db-user=root \
         --cleanup-database \
         --admin-use-security-key=0 \
         --admin-password="${MAGENTO_ADMIN_PASSWORD}"
