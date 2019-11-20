@@ -99,4 +99,4 @@ script:
 after_success:
   - if [ $TEST_SUITE == 'unit' ]; then cd ../ && travis_retry coveralls; fi
 after_failure:
-  - if [ $TEST_SUITE == 'functional' ]; then cat "${HOME}/drivers/*.log"; cat "${TRAVIS_BUILD_DIR}/magento2/var/log/*.log"; cat "${TRAVIS_BUILD_DIR}/var/reports/*"; fi
+  - if [ $TEST_SUITE == 'functional' ]; then ls -al "${HOME}/drivers" && cat "${HOME}/drivers/*.log"; ls -al "${TRAVIS_BUILD_DIR}/magento2/var/log" && cat "${TRAVIS_BUILD_DIR}/magento2/var/log/*.log"; ls -al "${TRAVIS_BUILD_DIR/magento2/var/reports}" && cat "${TRAVIS_BUILD_DIR}/magento2/var/reports/*"; fi
