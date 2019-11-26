@@ -14,7 +14,7 @@ if [ $TEST_SUITE == 'functional' ]; then
     do
         echo "Converting and uploading ${screenshot}..."
         IMAGEDATA=$(base64 $screenshot);
-        curl --location --request POST "https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}" --form "image=${IMAGEDATA}"
+        curl --location --request POST --form "image=${IMAGEDATA}" "https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}"
     done
     set -x
     popd
