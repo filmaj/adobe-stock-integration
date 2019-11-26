@@ -12,11 +12,8 @@ if [ "$TEST_SUITE" == 'functional' ]; then
     set +x
     for screenshot in *.png;
     do
-        echo "Converting and uploading ${screenshot}..."
-        IMAGEDATA=$(base64 "$screenshot")
-        echo "Base64-encoded image data size:";
-        echo "$IMAGEDATA" | wc -c
-        curl --location --request POST --form "image=${IMAGEDATA}" "https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}"
+        echo "Uploading ${screenshot}..."
+        curl --location --request POST --form "image=@${screenshot}" "https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}"
     done
     set -x
     popd
